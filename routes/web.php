@@ -15,8 +15,9 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('account/profile', [ProfileController::class, 'profile'])->name('account.profile');
-    Route::put('update-profile', [ProfileController::class, 'updateProfile'])->name('account.updateProfile');
+    Route::get('/account/profile', [ProfileController::class, 'profile'])->name('account.profile');
+    Route::post('/update/profile/pic', [ProfileController::class, 'updateProfilePic'])->name('update.profilepic');
+    Route::put('/update-profile', [ProfileController::class, 'updateProfile'])->name('account.updateProfile');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

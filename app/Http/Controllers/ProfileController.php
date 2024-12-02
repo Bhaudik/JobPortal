@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
 use Illuminate\Container\Attributes\Auth as AttributesAuth;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
 
 use function Laravel\Prompts\error;
 
@@ -102,5 +107,54 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    public function updateProfilePic(Request $request)
+    {
+        $id = Auth::id();
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image'
+        ]);
+
+        if ($validator->passes()) {
+            $image = $request->image;
+
+            $ext = $image->getClientOriginalExtension();
+            $imageName = $id . '_' . time() . '.' . $ext;
+            $image->move(public_path('/profile_pic/'), $imageName);
+
+            //create small thamnel 
+            $sourcePath = public_path('/profile_pic/' . $imageName);
+            // dd($sourcePath);
+            $manager = new ImageManager(Driver::class);
+            $image = $manager->read($sourcePath);
+
+            // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
+            $image->cover(150, 150);
+
+
+
+            $image->toPng()->save(public_path('/profile_pic/thumb/' . $imageName));
+
+            //delete profil pic  
+            File::delete(public_path('/profile_pic/thumb/' . Auth::user()->photo));
+            File::delete(public_path('/profile_pic/' . Auth::user()->photo));
+            // dd('waite');
+
+            User::where('id', $id)->update(['photo' => $imageName]);
+            session()->flash('success', 'Profile picture updated succesfully');
+
+
+
+            return response()->json([
+                'status' => true,
+                'errors' => []
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
     }
 }
