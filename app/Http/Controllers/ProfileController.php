@@ -3,22 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
+use Illuminate\Container\Attributes\Auth as AttributesAuth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+
+use function Laravel\Prompts\error;
 
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
-     public function profile(){
+    public function profile()
+    {
 
-        $id = auth()->user()->id();
+        $id = Auth::id();
 
-        return view('front.Account.profile');
+        $user = User::where('id', $id)->first();
+        // $user = User::find($id);
+        // dd($user);
+        return view('front.Account.profile', ['user' => $user]);
     }
     public function edit(Request $request): View
     {
@@ -41,6 +50,37 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $id = Auth::id();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:5|max:20',
+            'email' => 'required|email|unique:users,email,' . $id . ',id',
+
+        ]);
+
+        if ($validator->passes()) {
+            # code...
+            $user = User::find($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->designation = $request->designation;
+            $user->mobile = $request->mobile;
+            $user->save();
+
+            session()->flash('success', 'Profile Updated Sucessfully');
+            return response()->json([
+                'status' => true,
+                'errors' => []
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
     }
 
     /**

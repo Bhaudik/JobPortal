@@ -18,29 +18,39 @@
                     @include('front.Account.sidebar')
                 </div>
                 <div class="col-lg-9">
+                    @include('front.message')
                     <div class="card border-0 shadow mb-4">
-                        <div class="card-body  p-4">
-                            <h3 class="fs-4 mb-1">My Profile</h3>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Name*</label>
-                                <input type="text" placeholder="Enter Name" class="form-control" value="">
+                        <form action="" id="userForm" name="userFrom">
+
+                            <div class="card-body  p-4">
+                                <h3 class="fs-4 mb-1">My Profile</h3>
+                                <div class="mb-4">
+                                    <label for="" class="mb-2">Name*</label>
+                                    <input type="text" placeholder="Enter Name" name="name" id="name"
+                                        class="form-control" value="{{ $user->name }}">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="mb-2">Email*</label>
+                                    <input type="email" name="email" id="email" placeholder="Enter Email"
+                                        class="form-control" value="{{ $user->email }}">
+                                    <p></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="mb-2">Designation</label>
+                                    <input type="text" name="designation" id="designation" placeholder="Designation"
+                                        class="form-control" value="{{ $user->designation }}">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="mb-2">Mobile</label>
+                                    <input type="number" name="mobile" id="mobile" placeholder="Mobile"
+                                        class="form-control" value="{{ $user->mobile }}">
+                                </div>
                             </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Email*</label>
-                                <input type="text" placeholder="Enter Email" class="form-control">
+                            <div class="card-footer  p-4">
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Designation*</label>
-                                <input type="text" placeholder="Designation" class="form-control">
-                            </div>
-                            <div class="mb-4">
-                                <label for="" class="mb-2">Mobile*</label>
-                                <input type="text" placeholder="Mobile" class="form-control">
-                            </div>
-                        </div>
-                        <div class="card-footer  p-4">
-                            <button type="button" class="btn btn-primary">Update</button>
-                        </div>
+                        </form>
                     </div>
 
                     <div class="card border-0 shadow mb-4">
@@ -49,10 +59,12 @@
                             <div class="mb-4">
                                 <label for="" class="mb-2">Old Password*</label>
                                 <input type="password" placeholder="Old Password" class="form-control">
+                                <p></p>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">New Password*</label>
                                 <input type="password" placeholder="New Password" class="form-control">
+                                <p></p>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Confirm Password*</label>
@@ -90,4 +102,60 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('customjs')
+    <script type="text/javascript">
+        $('#userForm').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'put',
+                url: "{{ route('account.updateProfile') }}",
+                data: $('#userForm').serializeArray(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == true) {
+                        $('#name').remove('is-invalid')
+                            .siblings('p')
+                            .remove('invalid-feedback')
+                            .html('')
+
+                        $('#email').remove('is-invalid')
+                            .siblings('p')
+                            .remove('invalid-feedback')
+                            .html('')
+                        window.location.href = "{{ route('account.profile') }}";
+
+                    } else {
+                        var errors = response.errors;
+                        alert("ok");
+                        if (errors.name) {
+                            $('#name').addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback')
+                                .html('errors.name')
+                        } else {
+                            $('#name').remove('is-invalid')
+                                .siblings('p')
+                                .remove('invalid-feedback')
+                                .html('')
+                        }
+
+                        if (errors.email) {
+                            $('#email').addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback')
+                                .html(errors.email)
+                        } else {
+                            $('#email').remove('is-invalid')
+                                .siblings('p')
+                                .remove('invalid-feedback')
+                                .html('')
+                        }
+
+                    }
+                }
+            });
+        });
+    </script>
 @endsection
