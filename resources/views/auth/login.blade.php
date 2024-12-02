@@ -14,18 +14,27 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="" class="mb-2">Email*</label>
-                                <input type="text" name="email" id="email" class="form-control"
+                                <input type="email" name="email" id="email"
+                                    class="form-control @error('email') is-invalid
+                                    
+                                @enderror"
                                     placeholder="example@example.com">
+                                <div style="color:red">
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                </div>
 
 
                             </div>
                             <div class="mb-3">
                                 <label for="" class="mb-2">Password*</label>
-                                <input type="password" name="password" id="password" class="form-control"
+                                <input type="password" name="password" id="password"
+                                    class="form-control @error('password') is-invalid
+                                    
+                                @enderror"
                                     placeholder="Enter Password">
                                 {{-- <div style="color:red"><x-input-error :messages="$errors->get('password')" class="mt-2" /></div> --}}
                                 <div style="color:red">
-                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
                             </div>
 
