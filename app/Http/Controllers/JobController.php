@@ -20,17 +20,17 @@ class JobController extends Controller
 
         // Filter by keywords
         if ($request->has('keywords') && $request->keywords) {
-            $query->where('keywords', 'like', '%' . $request->keywords . '%');
+            $query->orWhere('keywords', 'like', '%' . $request->keywords . '%');
         }
 
         // Filter by location
         if ($request->has('location') && $request->location) {
-            $query->where('location', 'like', '%' . $request->location . '%');
+            $query->orWhere('location', 'like', '%' . $request->location . '%');
         }
 
         // Filter by category
         if ($request->has('category') && $request->category) {
-            $query->where('category_id', $request->category);
+            $query->orWhere('category_id', $request->category);
         }
 
         // Filter by job type

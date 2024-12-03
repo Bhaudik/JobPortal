@@ -179,6 +179,24 @@
                                         class="form-control" value="{{ $job->company_website }}">
                                 </div>
 
+                                <div class="mb-4">
+                                    <label for="status" class="mb-2">Status</label>
+                                    <select id="status" name="status" class="form-control">
+                                        <option value="1" {{ $job->status == 1 ? 'selected' : '' }}>Active</option>
+                                        <option value="0" {{ $job->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="isFeatured" class="mb-2">Is Featured</label>
+                                    <select id="isFeatured" name="isFeatured" class="form-control">
+                                        <option value="1" {{ $job->isFeatured == 1 ? 'selected' : '' }}>Is Featured
+                                        </option>
+                                        <option value="0" {{ $job->isFeatured == 0 ? 'selected' : '' }}>Is Not
+                                            Featured</option>
+                                    </select>
+                                </div>
+
 
                                 <div class="card-footer p-4">
                                     <button type="submit" class="btn btn-primary" id="submitJobForm">Save
@@ -214,8 +232,8 @@
                     success: function(response) {
                         if (response.status) {
                             // Success - redirect or show success message
-                             window.location.href = response.redirect_url;
-                            } else {
+                            window.location.href = response.redirect_url;
+                        } else {
                             // Show validation errors
                             $.each(response.errors, function(key, value) {
                                 $('#' + key).after('<div class="error text-danger">' +

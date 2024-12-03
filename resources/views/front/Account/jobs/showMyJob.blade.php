@@ -48,7 +48,7 @@
                                                     <div class="job-name fw-500">{{ $job->title }}</div>
                                                     <div class="info1">{{ $job->job_type }} . {{ $job->location }}</div>
                                                 </td>
-                                                <td>{{ $job->created_at->format('d M, Y') }}</td>
+                                                <td>{{ $job->created_at->format('d, M, Y') }}</td>
                                                 <td>{{ $job->applicants_count }} Applicants</td>
                                                 <td>
                                                     <div class="job-status text-capitalize">

@@ -107,6 +107,9 @@ class AccountController extends Controller
         // Retrieve the job by ID
         $job = Job::findOrFail($id);
 
+        if ($job == null) {
+            abort(404);
+        }
         if ($job->user_id !== Auth::id()) {
             return redirect()->route('my-jobs')->with('error', 'You are not authorized to edit this job.');
         }
@@ -170,7 +173,10 @@ class AccountController extends Controller
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
             $job->company_location = $request->company_location;
-            $job->company_website = $request->website; // Fixed naming to match table
+            $job->company_website = $request->website;
+            $job->isFeatured = $request->isFeatured;
+            $job->status = $request->status;
+
             $job->save();
 
             // Flash success message
