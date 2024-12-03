@@ -51,7 +51,10 @@
                                                 <td>{{ $job->created_at->format('d M, Y') }}</td>
                                                 <td>{{ $job->applicants_count }} Applicants</td>
                                                 <td>
-                                                    <div class="job-status text-capitalize">{{ $job->status }}</div>
+                                                    <div class="job-status text-capitalize">
+                                                        {{ $job->status == 1 ? 'Active' : 'Deactive' }}
+                                                    </div>
+
                                                 </td>
                                                 <td>
                                                     <div class="action-dots float-end">
