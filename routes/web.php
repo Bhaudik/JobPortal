@@ -6,9 +6,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('front.home');
-});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,6 +26,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-job/{id}', [AccountController::class, 'editJob'])->name('edit.job');
     Route::put('/update-job/{id}', [AccountController::class, 'updateJob'])->name('update.job');
     Route::get('/delete-job/{id}', [AccountController::class, 'destroyJob'])->name('delete.job');
+
+    Route::get('/applied-job', [JobController::class, 'myAppliedJob'])->name('applied.job');
+    Route::delete('/applied-delete-job/{id}', [JobController::class, 'myAppliedDestroyJob'])->name('applied.delete.job');
 });
 Route::get('/job-detail/{id}', [AccountController::class, 'showJob'])->name('job.detail');
 Route::post('/ApplyJob', [JobController::class, 'ApplyJob'])->name('job.apply');
@@ -35,5 +36,5 @@ Route::post('/ApplyJob', [JobController::class, 'ApplyJob'])->name('job.apply');
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
 Route::get('/jobs/filter', [JobController::class, 'filterJobs'])->name('jobs.filter');
 
-Route::get('/Home', [HomeController::class, 'index'])->name('front.index');
+Route::get('/', [HomeController::class, 'index'])->name('front.index');
 require __DIR__ . '/auth.php';

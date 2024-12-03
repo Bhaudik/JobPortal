@@ -144,7 +144,7 @@ class JobController extends Controller
         // Save the record to the database
         if ($jobApplication->save()) {
 
-            $employer = User::where('id',$empid)->first();
+            $employer = User::where('id', $empid)->first();
             $mailData = [
                 'employer' => $employer,
                 'user' => Auth::user(),
@@ -169,6 +169,42 @@ class JobController extends Controller
         return response([
             'status' => false,
             'message' => 'Failed to apply for the job'
+        ]);
+    }
+
+
+    // job applied
+
+    public function myAppliedJob()
+    {
+        // Fetch jobs the user has applied for
+        $appliedJobs = job_application::with('job')
+            ->where('user_id', Auth::id()) // Get only the jobs applied by the authenticated user
+            ->paginate(10);
+
+        return view('front.Account.jobs.appliedJob', compact('appliedJobs'));
+    }
+
+    public function myAppliedDestroyJob($id)
+    {
+        // Find the application by ID
+        $application = job_application::find($id);
+
+        if ($application && $application->user_id == Auth::id()) {
+            // Delete the application
+            $application->delete();
+
+
+            session()->flash('success', 'Job application removed successfully.');
+            return response()->json([
+                'satus' => true,
+                'message' => 'Job application removed successfully.',
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Job application not found or unauthorized.',
         ]);
     }
 }
