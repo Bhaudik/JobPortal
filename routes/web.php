@@ -21,6 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/create-job', [AccountController::class, 'createJob'])->name('create.job');
+    Route::get('/show-job', [AccountController::class, 'showMyJob'])->name('show.job');
+    Route::post('/store-job', [AccountController::class, 'storeJob'])->name('store.job');
 });
 
 Route::get('/Home', [HomeController::class, 'index'])->name('front.index');

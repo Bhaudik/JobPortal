@@ -8,7 +8,7 @@
                 <div class="col-md-5">
                     <div class="card shadow border-0 p-5">
                         <h1 class="h3">Register</h1>
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ route('store.register') }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="" class="mb-2">Name*</label>
