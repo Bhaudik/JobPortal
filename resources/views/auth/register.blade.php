@@ -74,7 +74,7 @@
 
                                 </div>
                             </div>
-                            <button class="btn btn-primary mt-2">Register</button>
+                            <button class="btn btn-primary mt-2" type="submit">Register</button>
                         </form>
                     </div>
                     <div class="mt-4 text-center">

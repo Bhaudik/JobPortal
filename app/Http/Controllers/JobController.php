@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Job;
+use App\Models\job_application;
 use App\Models\JobType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -86,6 +88,70 @@ class JobController extends Controller
 
         return response()->json([
             'jobs' => $jobs
+        ]);
+    }
+
+    public function ApplyJob(Request $request)
+    {
+        // Retrieve job ID from request
+        $id = $request->id;
+
+        // Fetch the job details
+        $job = Job::find($id);
+
+        // Check if the job exists
+        if ($job == null) {
+            session()->flash('error', 'Job does not exist');
+            return response([
+                'status' => false,
+                'message' => 'Job does not exist'
+            ]);
+        }
+
+        // Prevent user from applying to their own job
+        $empid = $job->user_id;
+        if ($empid == Auth::id()) {
+            session()->flash('error', 'You cannot apply to your own job');
+            return response([
+                'status' => false,
+                'message' => 'You cannot apply to your own job'
+            ]);
+        }
+
+        // Check if the user has already applied for this job
+        $existingApplication = job_application::where('job_id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if ($existingApplication) {
+            session()->flash('error', 'You have already applied for this job');
+            return response([
+                'status' => false,
+                'message' => 'You have already applied for this job'
+            ]);
+        }
+
+        // Create a new job application
+        $jobApplication = new job_application();
+        $jobApplication->user_id = Auth::id(); // Applicant's ID
+        $jobApplication->job_id = $id;        // Job ID
+        $jobApplication->employer_id = $empid; // Employer's ID
+        $jobApplication->applied_date = now(); // Set the current timestamp
+
+        // Save the record to the database
+        if ($jobApplication->save()) {
+            session()->flash('success', 'Application submitted successfully');
+            return response([
+                'status' => true,
+                'message' => 'Application submitted successfully'
+            ]);
+        }
+
+        // Handle any errors during saving
+        session()->flash('error', 'Failed to apply for the job');
+        return response([
+            'status' => false,
+            'message' => 'Failed to apply for the job'
         ]);
     }
 }
