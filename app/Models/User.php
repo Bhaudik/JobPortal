@@ -49,4 +49,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    // In User model
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
 }

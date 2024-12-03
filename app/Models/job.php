@@ -30,4 +30,20 @@ class Job extends Model
         'company_website',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function jobType()
+    {
+        return $this->belongsTo(JobType::class);
+    }
+
+    // Relationship with Category
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
