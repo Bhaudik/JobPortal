@@ -40,11 +40,15 @@ class JobController extends Controller
 
         // Filter by experience
         if ($request->has('experience') && $request->experience) {
-            $query->where('experience', $request->experience);
+            $query->orWhere('experience', $request->experience);
         }
+
+
+
 
         // Get the jobs, you can paginate if needed
         $jobs = $query->get();
+
 
         // Return the view with the job listings and filters
         return view('front.Account.jobs', compact('jobs', 'categories', 'jobTypes'));

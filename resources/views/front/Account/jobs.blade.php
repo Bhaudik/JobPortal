@@ -109,6 +109,14 @@
                                                         <span class="fw-bolder"><i class="fa fa-usd"></i></span>
                                                         <span class="ps-1">{{ $job->salary }}</span>
                                                     </p>
+
+                                                    {{-- <p class="mb-1">
+                                                        <span class="ps-1">Experience :{{ $job->experience }}</span>
+                                                    </p>
+                                                    <p class="mb-1">
+                                                        <span class="ps-1">Category:{{ $job->category->name }}</span>
+                                                    </p> --}}
+
                                                 </div>
 
                                                 <div class="d-grid mt-3">

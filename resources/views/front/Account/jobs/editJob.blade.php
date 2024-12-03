@@ -26,24 +26,7 @@
                             <div class="card-body card-form p-4">
                                 <h3 class="fs-4 mb-1">Job Details</h3>
                                 <!-- Job Details Fields -->
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <label for="title" class="mb-2">Title<span class="req">*</span></label>
-                                        <input type="text" placeholder="Job Title" id="title" name="title"
-                                            class="form-control" value="{{ $job->title }}">
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <label for="category" class="mb-2">Category<span class="req">*</span></label>
-                                        <select name="category" id="category" class="form-control">
-                                            <option value="">Select a Category</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}"
-                                                    {{ $job->category_id == $category->id ? 'selected' : '' }}>
-                                                    {{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+
 
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
