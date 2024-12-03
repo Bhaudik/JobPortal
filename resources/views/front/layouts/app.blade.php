@@ -32,7 +32,7 @@
                             <a class="nav-link" aria-current="page" href="index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="jobs.html">Find Jobs</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('jobs.index') }}">Find Jobs</a>
                         </li>
                     </ul>
                     <a class="btn btn-outline-primary me-2" href="{{ route('login') }}" type="submit">Login</a>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/update-job/{id}', [AccountController::class, 'updateJob'])->name('update.job');
     Route::get('/delete-job/{id}', [AccountController::class, 'destroyJob'])->name('delete.job');
 });
+
+Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
+Route::get('/jobs/filter', [JobController::class, 'filterJobs'])->name('jobs.filter');
 
 Route::get('/Home', [HomeController::class, 'index'])->name('front.index');
 require __DIR__ . '/auth.php';
