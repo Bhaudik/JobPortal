@@ -198,14 +198,37 @@ class JobController extends Controller
 
             session()->flash('success', 'Job application removed successfully.');
             return response()->json([
-                'satus' => true,
+                'status' => true,
                 'message' => 'Job application removed successfully.',
             ]);
         }
 
         return response()->json([
-            'success' => false,
+            'status' => false,
             'message' => 'Job application not found or unauthorized.',
+        ]);
+    }
+    public function mySavedDestroyJob($id)
+    {
+        // Find the saved by ID
+        $saved = saved_jobs::find($id);
+
+        if ($saved && $saved->user_id == Auth::id()) {
+            // Delete the saved
+            $saved->delete();
+
+
+            session()->flash('success', 'Job saved removed successfully.');
+            return response()->json([
+                'status' => true,
+                'message' => 'Job saved removed successfully.',
+                // 'redirect_url' => route('saved.job'),
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Job saved not found or unauthorized.',
         ]);
     }
 

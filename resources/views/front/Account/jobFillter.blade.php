@@ -1,5 +1,6 @@
 @section('fillter')
     <script>
+       
         $(document).ready(function() {
             // Trigger AJAX request when any filter is changed
             $('#sort, #category, #job_type, #experience').on('change', function() {

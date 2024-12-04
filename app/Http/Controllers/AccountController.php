@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\job;
+use App\Models\job_application;
 use App\Models\jobs;
 use App\Models\JobType;
 use App\Models\saved_jobs;
@@ -216,11 +217,13 @@ class AccountController extends Controller
         // Fetch the job by ID
         $job = Job::findOrFail($id);  // This will return the job or throw a 404 if not found
 
+        $applications = job_application::where('job_id', $id)->with('user')->get();
         $existingSave = saved_jobs::where('job_id', $id)
             ->where('user_id', Auth::id())
             ->count();
 
+
         // Pass the job data to the view
-        return view('front.Account.jobs.JobDetialPage', compact('job', 'existingSave'));
+        return view('front.Account.jobs.JobDetialPage', compact('job', 'existingSave', 'applications'));
     }
 }

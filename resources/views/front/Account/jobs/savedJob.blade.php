@@ -107,7 +107,8 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == true) {
-                            widows.location.reload();
+                            window.location.reload();
+                            // window.location.href = response.redirect_url;
                         } else {
                             alert('An error occurred. Please try again.');
                         }
