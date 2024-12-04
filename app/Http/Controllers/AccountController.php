@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\job;
 use App\Models\jobs;
 use App\Models\JobType;
+use App\Models\saved_jobs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -215,7 +216,11 @@ class AccountController extends Controller
         // Fetch the job by ID
         $job = Job::findOrFail($id);  // This will return the job or throw a 404 if not found
 
+        $existingSave = saved_jobs::where('job_id', $id)
+            ->where('user_id', Auth::id())
+            ->count();
+
         // Pass the job data to the view
-        return view('front.Account.jobs.JobDetialPage', compact('job'));
+        return view('front.Account.jobs.JobDetialPage', compact('job', 'existingSave'));
     }
 }

@@ -22,8 +22,9 @@ class HomeController extends Controller
 
         // Fetch all categories as they are
         $categories = Category::orderBy('name', 'desc')->take(8)->get();
+        $allCategories = Category::orderBy('name', 'desc')->get();
 
         // Pass the data to the view
-        return view('front.home', compact('latestJobs', 'featuredJobs', 'categories'));
+        return view('front.home', compact('latestJobs', 'featuredJobs', 'categories', 'allCategories'));
     }
 }

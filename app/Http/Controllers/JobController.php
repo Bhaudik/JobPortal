@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Job;
 use App\Models\job_application;
 use App\Models\JobType;
+use App\Models\saved_jobs;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -206,5 +207,94 @@ class JobController extends Controller
             'success' => false,
             'message' => 'Job application not found or unauthorized.',
         ]);
+    }
+
+
+
+    // save jobs
+
+    public function SaveJob(Request $request)
+    {
+        // Retrieve job ID from request
+        $id = $request->id;
+
+        // Fetch the job details
+        $job = Job::find($id);
+
+        // Check if the job exists
+        if ($job == null) {
+            session()->flash('error', 'Job does not exist');
+            return response([
+                'status' => false,
+                'message' => 'Job does not exist'
+            ]);
+        }
+
+        // Prevent user from applying to their own job
+        // $empid = $job->user_id;
+        // if ($empid == Auth::id()) {
+        //     session()->flash('error', 'You cannot Save to your own job');
+        //     return response([
+        //         'status' => false,
+        //         'message' => 'You cannot save to your own job'
+        //     ]);
+        // }
+
+        // Check if the user has already applied for this job
+        $existingSave = saved_jobs::where('job_id', $id)
+            ->where('user_id', Auth::id())
+            ->count();
+
+        if ($existingSave) {
+            session()->flash('error', 'You have already saved for this job');
+            return response([
+                'status' => false,
+                'message' => 'You have already saved for this job'
+            ]);
+        }
+
+        // Create a new job application
+        $jobApplication = new saved_jobs();
+        $jobApplication->user_id = Auth::id(); // Applicant's ID
+        $jobApplication->job_id = $id;        // Job ID
+
+        // Save the record to the database
+        if ($jobApplication->save()) {
+
+            // $employer = User::where('id', $empid)->first();
+            // $mailData = [
+            //     'user' => Auth::user(),
+            //     'job' => $job
+            // ];
+
+            // Get the user's email from Auth::user()
+            // $userEmail = Auth::user()->email;
+
+            // Send the email to the user's email address
+            // Mail::to($userEmail)->send(new JobNotificationEmail($mailData));
+
+            session()->flash('success', 'You have savec job successfully');
+            return response([
+                'status' => true,
+                'message' => 'You have savec job successfully'
+            ]);
+        }
+
+        // Handle any errors during saving
+        session()->flash('error', 'Failed to save for the job');
+        return response([
+            'status' => false,
+            'message' => 'Failed to save for the job'
+        ]);
+    }
+
+    public function mySavedJob()
+    {
+        // Fetch jobs the user has applied for
+        $savedJobs = saved_jobs::with('job')
+            ->where('user_id', Auth::id()) // Get only the jobs applied by the authenticated user
+            ->paginate(10);
+
+        return view('front.Account.jobs.savedJob', compact('savedJobs'));
     }
 }

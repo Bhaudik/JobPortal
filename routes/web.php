@@ -28,10 +28,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/delete-job/{id}', [AccountController::class, 'destroyJob'])->name('delete.job');
 
     Route::get('/applied-job', [JobController::class, 'myAppliedJob'])->name('applied.job');
-    Route::delete('/applied-delete-job/{id}', [JobController::class, 'myAppliedDestroyJob'])->name('applied.delete.job');
+    Route::delete('/applied-delete-job/{id}', [JobController::class, 'myAppliedDestroyJob'])
+        ->name('applied.delete.job');
+
+    Route::post('/ApplyJob', [JobController::class, 'ApplyJob'])->name('job.apply');
+
+    Route::post('/SaveJob', [JobController::class, 'SaveJob'])->name('job.save');
+    Route::get('/saved-job', [JobController::class, 'mySavedJob'])->name('saved.job');
+    Route::delete('/saved-delete-job/{id}', [JobController::class, 'mysavedDestroyJob'])
+        ->name('saved.delete.job');
 });
 Route::get('/job-detail/{id}', [AccountController::class, 'showJob'])->name('job.detail');
-Route::post('/ApplyJob', [JobController::class, 'ApplyJob'])->name('job.apply');
+
 
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
 Route::get('/jobs/filter', [JobController::class, 'filterJobs'])->name('jobs.filter');

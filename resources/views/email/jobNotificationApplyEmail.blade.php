@@ -104,7 +104,7 @@
         <h3>Your Contact Information:</h3>
         <div class="contact-info">
             <p><strong>Email:</strong> {{ $mailData['user']->email }}</p>
-            <p><strong>Mobile Phone:</strong> {{ $mailData['user']->mobile_phone }}</p>
+            <p><strong>Mobile Phone:</strong> {{ $mailData['user']->phone }}</p>
         </div>
 
         <p>We will review your application and get back to you shortly.</p>

@@ -8,7 +8,7 @@
                     <nav aria-label="breadcrumb" class="rounded-3 p-3">
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('show.job') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                <a href="{{ route('jobs.index') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                     &nbsp;Back to Jobs</a>
                             </li>
                         </ol>
@@ -46,7 +46,9 @@
                                 </div>
                                 <div class="jobs_right">
                                     <div class="apply_now">
-                                        <a class="heart_mark" href="#"><i class="fa fa-heart-o"
+                                      
+                                        <a class="heart_mark {{ ($existingSave==1) ? 'saved-job': '' }}" href="javascript:void(0)"
+                                            onclick="SaveJob({{ $job->id }})"><i class="fa fa-heart-o"
                                                 aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -83,11 +85,12 @@
                             @endif
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
-                                <a href="#" class="btn btn-secondary">Save</a>
                                 @if (Auth::check())
                                     <button onclick="ApplyJob({{ $job->id }})" class="btn btn-primary">Apply</button>
+                                    <button onclick="SaveJob({{ $job->id }})" class="btn btn-primary">Save</button>
                                 @else
                                     <a href="javascript:void()" class="btn btn-primary disabled">Login to Apply</a>
+                                    <a href="javascript:void(" class="btn btn-secondary">Login to Save</a>
                                 @endif
 
 
@@ -166,6 +169,21 @@
                     }
                 });
             }
+        }
+
+        function SaveJob(id) {
+            $.ajax({
+                type: "post",
+                url: "{{ route('job.save') }}",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function(response) {
+                    window.location.reload();
+                }
+            });
+
         }
     </script>
 @endsection

@@ -110,12 +110,12 @@
                                                         <span class="ps-1">{{ $job->salary }}</span>
                                                     </p>
 
-                                                    {{-- <p class="mb-1">
+                                                    <p class="mb-1">
                                                         <span class="ps-1">Experience :{{ $job->experience }}</span>
                                                     </p>
                                                     <p class="mb-1">
                                                         <span class="ps-1">Category:{{ $job->category->name }}</span>
-                                                    </p> --}}
+                                                    </p>
 
                                                 </div>
 
