@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/saved-job', [JobController::class, 'mySavedJob'])->name('saved.job');
     Route::delete('/saved-delete-job/{id}', [JobController::class, 'mySavedDestroyJob'])
         ->name('saved.delete.job');
+
+    Route::post('/update-password', [AccountController::class, 'updatepassword'])
+        ->name('update.password');
 });
 Route::get('/job-detail/{id}', [AccountController::class, 'showJob'])->name('job.detail');
 

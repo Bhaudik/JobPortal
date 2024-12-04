@@ -8,8 +8,10 @@ use App\Models\job_application;
 use App\Models\jobs;
 use App\Models\JobType;
 use App\Models\saved_jobs;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
@@ -225,5 +227,37 @@ class AccountController extends Controller
 
         // Pass the job data to the view
         return view('front.Account.jobs.JobDetialPage', compact('job', 'existingSave', 'applications'));
+    }
+
+    public function updatepassword(Request $request)
+    {
+        // dd(request()->all());
+        $validator = Validator::make($request->all(), [
+            'oldpassword' => 'required',
+            'newpassword' => 'required|min:5',
+            'confirmnewpassword' => 'required|same:newpassword',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
+        if (Hash::check($request->oldpassword, Auth::user()->password) == false) {
+            // dd('match');
+            session()->flash('error', 'Your Old Password is In-Currect!');
+
+            return response()->json([
+                'status' => true,
+            ]);
+        }
+        $user = User::find(Auth::user()->id);
+        $user->password = Hash::make($request->confirmnewpassword);
+        $user->save();
+
+        session()->flash('success', 'Your Old Password is Update successfully!');
+        return response()->json([
+            'status' => true,
+        ]);
     }
 }

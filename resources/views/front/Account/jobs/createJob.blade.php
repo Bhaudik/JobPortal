@@ -18,7 +18,7 @@
                     @include('front.Account.sidebar')
                 </div>
                 <div class="col-lg-9">
-                   
+
                     <div class="card border-0 shadow mb-4 ">
                         <form method="post" name="jobForm" id="jobForm">
                             @csrf
@@ -107,25 +107,24 @@
                                 <div class="mb-4">
                                     <label for="description" class="mb-2">Description<span
                                             class="req">*</span></label>
-                                    <textarea class="form-control" name="description" id="description" cols="5" rows="5"
+                                    <textarea class="textarea" name="description" id="description" cols="5" rows="5"
                                         placeholder="Description">{{ old('description') }}</textarea>
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="benefits" class="mb-2">Benefits</label>
-                                    <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5"
-                                        placeholder="Benefits">{{ old('benefits') }}</textarea>
+                                    <textarea class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits">{{ old('benefits') }}</textarea>
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="responsibility" class="mb-2">Responsibility</label>
-                                    <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5"
+                                    <textarea class="textarea" name="responsibility" id="responsibility" cols="5" rows="5"
                                         placeholder="Responsibility">{{ old('responsibility') }}</textarea>
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="qualifications" class="mb-2">Qualifications</label>
-                                    <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5"
+                                    <textarea class="textarea" name="qualifications" id="qualifications" cols="5" rows="5"
                                         placeholder="Qualifications">{{ old('qualifications') }}</textarea>
                                 </div>
 

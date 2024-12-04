@@ -58,14 +58,14 @@
                             @if (!empty($job->description))
                                 <div class="single_wrap">
                                     <h4>Job description</h4>
-                                    <p>{{ $job->description }}</p>
+                                    <p>{{ Str::words(strip_tags($job->descriptiony)) }}</p>
                                 </div>
                             @endif
                             @if (!empty($job->responsibility))
                                 <div class="single_wrap">
                                     <h4>Responsibility</h4>
                                     <ul>
-                                        <li>{{ $job->responsibility }}</li>
+                                        <li>{{ Str::words(strip_tags($job->responsibility)) }}</li>
                                     </ul>
                                 </div>
                             @endif
@@ -73,14 +73,14 @@
                                 <div class="single_wrap">
                                     <h4>Qualifications</h4>
                                     <ul>
-                                        <li>{{ $job->qualifications }}</li>
+                                        <li>{{ Str::words(strip_tags($job->qualifications)) }}</li>
                                     </ul>
                                 </div>
                             @endif
                             @if (!empty($job->benefits))
                                 <div class="single_wrap">
                                     <h4>Benefits</h4>
-                                    <p>{{ $job->benefits }}</p>
+                                    <p>{{ Str::words(strip_tags($job->benefits)) }}</p>
                                 </div>
                             @endif
                             <div class="border-bottom"></div>
