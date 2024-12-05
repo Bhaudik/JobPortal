@@ -102,9 +102,10 @@ class AccountController extends Controller
 
     public function showMyJob()
     {
-        $jobs = Job::where('user_id', Auth::id())->get();
+        $jobs = Job::where('user_id', Auth::id())->paginate(5); // Fetch 10 jobs per page
         return view('front.Account.jobs.showMyJob', compact('jobs'));
     }
+
 
     public function editJob($id)
     {

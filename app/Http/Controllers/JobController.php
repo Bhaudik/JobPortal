@@ -179,11 +179,11 @@ class JobController extends Controller
     public function myAppliedJob()
     {
         // Fetch jobs the user has applied for
-        $appliedJobs = job_application::with('job')
+        $jobs = job_application::with('job')
             ->where('user_id', Auth::id()) // Get only the jobs applied by the authenticated user
             ->paginate(10);
 
-        return view('front.Account.jobs.appliedJob', compact('appliedJobs'));
+        return view('front.Account.jobs.appliedJob', compact('jobs'));
     }
 
     public function myAppliedDestroyJob($id)
@@ -231,8 +231,6 @@ class JobController extends Controller
             'message' => 'Job saved not found or unauthorized.',
         ]);
     }
-
-
 
     // save jobs
 

@@ -17,6 +17,34 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Fav Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="#" />
+    <style type="text/css">
+        .custom-pagination .page-item .page-link {
+            background-color: #ffffff;
+            /* Green button color */
+            color: rgb(0, 0, 0);
+            /* Text color */
+            border: 2px solid #A8DF8E;
+            /* Remove border */
+            border-radius: 5px;
+            /* Rounded buttons */
+            margin: 0 5px;
+            /* Spacing between buttons */
+            padding: 8px 15px;
+            /* Button padding */
+        }
+
+        .custom-pagination .page-item.active .page-link {
+            background-color: #A8DF8E;
+            /* Active button color */
+            color: white;
+        }
+
+        .custom-pagination .page-item .page-link:hover {
+            background-color: #45a049;
+            /* Hover effect */
+            color: white;
+        }
+    </style>
 </head>
 
 <body data-instant-intensity="mousedown">

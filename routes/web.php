@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\admin\DashbordControllers;
+use App\Http\Controllers\admin\jobController as AdminJobController;
+use App\Http\Controllers\admin\userController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
@@ -18,6 +20,21 @@ Route::get('/dashboard', function () {
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/dashboard', [DashbordControllers::class, 'index'])->name('admin.index');
+
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index'); // List all users
+        Route::get('/{id}', [UserController::class, 'show'])->name('show'); // View user details
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit'); // Show edit form
+        Route::put('/{id}', [UserController::class, 'update'])->name('update'); // Update user
+        Route::get('delete/{id}', [UserController::class, 'destroy'])->name('destroy'); // Delete user
+    });
+    Route::prefix('job')->name('admin.jobs.')->group(function () {
+        Route::get('/', [AdminJobController::class, 'index'])->name('index'); // List all users
+        Route::get('/{id}', [AdminJobController::class, 'show'])->name('show'); // View user details
+        Route::get('/{id}/edit', [AdminJobController::class, 'edit'])->name('edit'); // Show edit form
+        Route::put('/{id}', [AdminJobController::class, 'update'])->name('update'); // Update user
+        Route::get('delete/{id}', [AdminJobController::class, 'destroy'])->name('destroy'); // Delete user
+    });
 });
 
 Route::group(['prefix' => 'account'], function () {
