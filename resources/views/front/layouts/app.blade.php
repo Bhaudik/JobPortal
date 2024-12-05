@@ -38,7 +38,12 @@
                             <a class="nav-link" aria-current="page" href="{{ route('jobs.index') }}">Find Jobs</a>
                         </li>
                     </ul>
-                    @if (Auth::id())
+                    @if (Auth::check())
+                        @if (Auth::user()->role == 'admin')
+                            <a class="btn btn-outline-primary me-2" href="{{ route('admin.index') }}"
+                                type="submit">Admin</a>
+                        @endif
+
                         <a class="btn btn-outline-primary me-2" href="{{ route('account.profile') }}"
                             type="submit">Account</a>
                         <a class="btn btn-primary" href="{{ route('create.job') }}" type="submit">Post a Job</a>
