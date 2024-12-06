@@ -23,11 +23,7 @@
                         <div class="card-body dashboard text-center ">
                             <p class="h2">Wellcome Administrator!!</p>
                         </div>
-
                     </div>
-
-
-
                 </div>
             </div>
         </div>

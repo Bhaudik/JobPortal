@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\admin\applicationController;
 use App\Http\Controllers\admin\DashbordControllers;
 use App\Http\Controllers\admin\jobController as AdminJobController;
 use App\Http\Controllers\admin\userController;
@@ -34,6 +35,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::get('/{id}/edit', [AdminJobController::class, 'edit'])->name('edit'); // Show edit form
         Route::put('/{id}', [AdminJobController::class, 'update'])->name('update'); // Update user
         Route::get('delete/{id}', [AdminJobController::class, 'destroy'])->name('destroy'); // Delete user
+    });
+    Route::prefix('application')->name('admin.application.')->group(function () {
+        Route::get('/', [applicationController::class, 'index'])->name('index'); // List all users
+        Route::delete('delete/{id}', [applicationController::class, 'destroy'])->name('destroy'); // Delete user
     });
 });
 
